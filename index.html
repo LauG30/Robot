@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-widt">
+    <title>Robot</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/94/three.min.js"
+        integrity="sha512-ZGgXd6TB5qjtvTU6Q5o/LJM4pwLNy8U8XXJh+vJZDXp2wC8ASrl4WOeivaq2fpYc3TnTCLzyDvVjY8YhvNYaXg=="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/three@0.85.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.js"></script>
+</head>
+
+<body>
+    
+    <div id="myStats"></div>
+
+    <script>
+        var fondo, fondoMaterial, fondoMesh;
+        var pie1Geometria, pie1Material, pie1Mesh;
+        var pie2Geometria, pie2Material, pie2Mesh;
+        var ojo1Geometria, ojo1Material, ojo1Mesh;
+        var ojo2Geometria, ojo2Material, ojo2Mesh;
+        var camara, escena, render, controls, stats;
+        var codo1Geometria, codo1Material, codo1Mesh;
+        var codo2Geometria, codo2Material, codo2Mesh;
+        var mano1Geometria, mano1Material, mano1Mesh;
+        var mano2Geometria, mano2Material, mano2Mesh;
+        var antenaGeometria, antenaMaterial, antenaMesh;
+        var cabezaGeometria, cabezaMaterial, cabezaMesh;
+        var cuerpoGeometria, cuerpoMaterial, cuerpoMesh;
+        var piernaGeometria, piernaMaterial, piernaMesh;
+        var brazo1Geometria, brazo1Material, brazo1Mesh;
+        var brazo2Geometria, brazo2Material, brazo2Mesh;
+        var brazo3Geometria, brazo3Material, brazo3Mesh;
+        var brazo4Geometria, brazo4Material, brazo4Mesh;
+        var antena2Geometria, antena2Material, antena2Mesh;
+        var sonrisaGeometria, sonrisaMaterial, sonrisaMesh;
+        var pierna2Geometria, pierna2Material, pierna2Mesh;
+        var estomagoGeometria, estomagoMaterial, estomagoMesh;
+
+        let robot = new THREE.Object3D();
+
+        inicio();
+        mostrar();
+
+        function inicio() {
+            camara = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+            camara.position.z = 6;
+            camara.position.y = 3;
+            escena = new THREE.Scene();
+
+            robot.add(crearPie1());
+            robot.add(crearPie2());
+            robot.add(crearOjo1());
+            robot.add(crearOjo2());
+            robot.add(crearMano1());
+            robot.add(crearMano2());
+            robot.add(crearCodo1());
+            robot.add(crearCodo2());
+            robot.add(crearCabeza());
+            robot.add(crearCuerpo());
+            robot.add(crearBrazo1());
+            robot.add(crearBrazo2());
+            robot.add(crearBrazo3());
+            robot.add(crearBrazo4());
+            robot.add(crearAntena());
+            robot.add(createStats());
+            robot.add(crearAntena2());
+            robot.add(crearSonrisa());
+            robot.add(crearPierna1());
+            robot.add(crearPierna2());
+            robot.add(crearEstomago());
+            
+            escena.add(robot);
+
+            render = new THREE.WebGLRenderer({ antialias: true });
+            render.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(render.domElement);
+            controls = new THREE.OrbitControls(camara, render.domElement);
+        }
+
+        function mostrar() {
+            stats.update();
+            controls.update();
+            requestAnimationFrame(mostrar);
+            render.render(escena, camara);
+        }
+
+        function createStats() {
+            stats = new Stats();
+            stats.setMode(2); // 0: fps, 1: ms, 2memory
+            stats.domElement.style.position = "absolute";
+            stats.domElement.style.left = "100px";
+            stats.domElement.style.top = "10px";
+            document.getElementById("myStats").appendChild(stats.domElement);
+            return stats;
+        }
+
+        function crearCabeza() {
+            let cabeza = new THREE.Object3D();
+
+            cabezaGeometria = new THREE.BoxGeometry(0.65, 0.55, 0.35);
+            cabezaMaterial = new THREE.MeshBasicMaterial({ color: 0x5D9FEB });
+            cabezaMesh = new THREE.Mesh(cabezaGeometria, cabezaMaterial);
+            cabezaMesh.position.y = 2.15;
+            cabeza.add(cabezaMesh);
+
+            return cabeza;
+        }
+
+        function crearAntena() {
+            let antena = new THREE.Object3D();
+
+            antenaGeometria = new THREE.BoxGeometry(0.01, 0.28, 0.01);
+            antenaMaterial = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            antenaMesh = new THREE.Mesh(antenaGeometria, antenaMaterial);
+            antenaMesh.position.y = 2.63;
+            antenaMesh.position.x = 0.01;
+            antena.add(antenaMesh);
+
+            return antena;
+        }
+
+        function crearAntena2() {
+            let antena2 = new THREE.Object3D();
+
+            antena2Geometria = new THREE.SphereGeometry(0.08, 0.8, 0.5);
+            antena2Material = new THREE.MeshBasicMaterial({ color: 0xF5FC6A });
+            antena2Mesh = new THREE.Mesh(antena2Geometria, antena2Material);
+            antena2Mesh.position.y = 2.83;
+            antena2Mesh.position.x = 0.01;
+            antena2.add(antena2Mesh);
+
+            return antena2;
+        }
+
+        function crearOjo1() {
+            let ojo1 = new THREE.Object3D();
+
+            ojo1Geometria = new THREE.SphereGeometry(0.05, 0.1, 0.35);
+            ojo1Material = new THREE.MeshBasicMaterial({ color: 0xEC7063 });
+            ojo1Mesh = new THREE.Mesh(ojo1Geometria, ojo1Material);
+            ojo1Mesh.position.y = 2.25;
+            ojo1Mesh.position.x = 0.08;
+            ojo1Mesh.position.z = 0.18;
+            ojo1.add(ojo1Mesh);
+
+            return ojo1;
+        }
+
+        function crearOjo2() {
+            let ojo2 = new THREE.Object3D();
+
+            ojo2Geometria = new THREE.SphereGeometry(0.05, 0.1, 0.35);
+            ojo2Material = new THREE.MeshBasicMaterial({ color: 0xEC7063 });
+            ojo2Mesh = new THREE.Mesh(ojo2Geometria, ojo2Material);
+            ojo2Mesh.position.y = 2.25;
+            ojo2Mesh.position.x = -0.08;
+            ojo2Mesh.position.z = 0.18;
+            ojo2.add(ojo2Mesh);
+
+            return ojo2;
+        }
+
+        function crearSonrisa() {
+            let sonrisa = new THREE.Object3D();
+
+            sonrisaGeometria = new THREE.BoxGeometry(0.4, 0.08, 0.35);
+            sonrisaMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            sonrisaMesh = new THREE.Mesh(sonrisaGeometria, sonrisaMaterial);
+            sonrisaMesh.position.y = 2.08;
+            sonrisa.add(sonrisaMesh);
+
+            return sonrisa;
+        }
+
+        function crearCuerpo() {
+            let cuerpo = new THREE.Object3D();
+
+            cuerpoGeometria = new THREE.BoxGeometry(0.9, 1.05, 0.35);
+            cuerpoMaterial = new THREE.MeshBasicMaterial({ color: 0x5D9FEB });
+            cuerpoMesh = new THREE.Mesh(cuerpoGeometria, cuerpoMaterial);
+            cuerpoMesh.position.y = 1.40;
+            cuerpo.add(cuerpoMesh);
+
+            return cuerpo;
+        }
+
+        function crearEstomago() {
+            let estomago = new THREE.Object3D();
+
+            estomagoGeometria = new THREE.BoxGeometry(0.55, 0.6, 0.35);
+            estomagoMaterial = new THREE.MeshBasicMaterial({ color: 0xF5FC6A });
+            estomagoMesh = new THREE.Mesh(estomagoGeometria, estomagoMaterial);
+            estomagoMesh.position.y = 1.40;
+            estomago.add(estomagoMesh);
+
+            return estomago;
+        }
+
+        function crearBrazo1() {
+            let brazo1 = new THREE.Object3D();
+
+            brazo1Geometria = new THREE.BoxGeometry(0.3, 0.3, 0.35);
+            brazo1Material = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            brazo1Mesh = new THREE.Mesh(brazo1Geometria, brazo1Material);
+            brazo1Mesh.position.y = 1.78;
+            brazo1Mesh.position.x = -0.61;
+            brazo1.add(brazo1Mesh);
+
+            return brazo1;
+        }
+
+        function crearBrazo2() {
+            let brazo2 = new THREE.Object3D();
+
+            brazo2Geometria = new THREE.BoxGeometry(0.3, 0.3, 0.35);
+            brazo2Material = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            brazo2Mesh = new THREE.Mesh(brazo2Geometria, brazo2Material);
+            brazo2Mesh.position.y = 1.78;
+            brazo2Mesh.position.x = 0.60;
+            brazo2.add(brazo2Mesh);
+
+            return brazo2;
+        }
+
+        function crearCodo1() {
+            let codo1 = new THREE.Object3D();
+
+            codo1Geometria = new THREE.BoxGeometry(0.3, 0.15, 0.35);
+            codo1Material = new THREE.MeshBasicMaterial({ color: 0xEC7063 });
+            codo1Mesh = new THREE.Mesh(codo1Geometria, codo1Material);
+            codo1Mesh.position.y = 1.58;
+            codo1Mesh.position.x = -0.61;
+            codo1.add(codo1Mesh);
+
+            return codo1;
+        }
+
+        function crearCodo2() {
+            let codo2 = new THREE.Object3D();
+
+            codo2Geometria = new THREE.BoxGeometry(0.3, 0.15, 0.35);
+            codo2Material = new THREE.MeshBasicMaterial({ color: 0xEC7063 });
+            codo2Mesh = new THREE.Mesh(codo2Geometria, codo2Material);
+            codo2Mesh.position.y = 1.58;
+            codo2Mesh.position.x = 0.60;
+            codo2.add(codo2Mesh);
+
+            return codo2;
+        }
+
+        function crearBrazo3() {
+            let brazo3 = new THREE.Object3D();
+
+            brazo3Geometria = new THREE.BoxGeometry(0.3, 0.3, 0.35);
+            brazo3Material = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            brazo3Mesh = new THREE.Mesh(brazo3Geometria, brazo3Material);
+            brazo3Mesh.position.y = 1.35;
+            brazo3Mesh.position.x = -0.61;
+            brazo3.add(brazo3Mesh);
+
+            return brazo3;
+        }
+
+        function crearBrazo4() {
+            let brazo4 = new THREE.Object3D();
+
+            brazo4Geometria = new THREE.BoxGeometry(0.3, 0.3, 0.35);
+            brazo4Material = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            brazo4Mesh = new THREE.Mesh(brazo4Geometria, brazo4Material);
+            brazo4Mesh.position.y = 1.35;
+            brazo4Mesh.position.x = 0.60;
+            brazo4.add(brazo4Mesh);
+
+            return brazo4;
+        }
+
+        function crearMano1() {
+            let mano1 = new THREE.Object3D();
+
+            mano1Geometria = new THREE.SphereGeometry(0.18, 0.1, 0.35);
+            mano1Material = new THREE.MeshBasicMaterial({ color: 0xEC7063 });
+            mano1Mesh = new THREE.Mesh(mano1Geometria, mano1Material);
+            mano1Mesh.position.y = 1.15;
+            mano1Mesh.position.x = 0.63;
+            mano1.add(mano1Mesh);
+
+            return mano1;
+        }
+
+        function crearMano2() {
+            let mano2 = new THREE.Object3D();
+
+            mano2Geometria = new THREE.SphereGeometry(0.18, 0.1, 0.35);
+            mano2Material = new THREE.MeshBasicMaterial({ color: 0xEC7063 });
+            mano2Mesh = new THREE.Mesh(mano2Geometria, mano2Material);
+            mano2Mesh.position.y = 1.15;
+            mano2Mesh.position.x = -0.63;
+            mano2.add(mano2Mesh);
+
+            return mano2;
+        }
+
+        function crearPierna1() {
+            let pierna = new THREE.Object3D();
+
+            piernaGeometria = new THREE.BoxGeometry(0.3, 0.7, 0.35);
+            piernaMaterial = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            piernaMesh = new THREE.Mesh(piernaGeometria, piernaMaterial);
+            piernaMesh.position.y = 0.54;
+            piernaMesh.position.x = -0.2;
+            pierna.add(piernaMesh);
+
+            return pierna;
+        }
+
+        function crearPierna2() {
+            let pierna2 = new THREE.Object3D();
+
+            pierna2Geometria = new THREE.BoxGeometry(0.3, 0.7, 0.35);
+            pierna2Material = new THREE.MeshBasicMaterial({ color: 0x525248 });
+            pierna2Mesh = new THREE.Mesh(pierna2Geometria, pierna2Material);
+            pierna2Mesh.position.y = 0.54;
+            pierna2Mesh.position.x = 0.2;
+            pierna2.add(pierna2Mesh);
+
+            return pierna2;
+        }
+
+        function crearPie1() {
+            let pie1 = new THREE.Object3D();
+
+            pie1Geometria = new THREE.BoxGeometry(0.5, 0.2, 0.35);
+            pie1Material = new THREE.MeshBasicMaterial({ color: 0xF5FC6A });
+            pie1Mesh = new THREE.Mesh(pie1Geometria, pie1Material);
+            pie1Mesh.position.y = 0.1;
+            pie1Mesh.position.x = -0.2;
+            pie1.add(pie1Mesh);
+
+            return pie1;
+        }
+
+        function crearPie2() {
+            let pie2 = new THREE.Object3D();
+
+            pie2Geometria = new THREE.BoxGeometry(0.5, 0.2, 0.35);
+            pie2Material = new THREE.MeshBasicMaterial({ color: 0xF5FC6A });
+            pie2Mesh = new THREE.Mesh(pie2Geometria, pie2Material);
+            pie2Mesh.position.y = 0.1;
+            pie2Mesh.position.x = 0.2;
+            pie2.add(pie2Mesh);
+
+            return pie2;
+        }
+    </script>
+</body>
+
+</html>
